@@ -7,7 +7,6 @@ const char* filename = "input.txt";
 
 const int numLines = 1000;
 
-
 int checkVals(char *curLine, char skip) {
     size_t i = 0;
     printf("\nskip == %d ", skip);
@@ -80,11 +79,6 @@ int main() {
         }
         pos++;
     }
-
-
-    // for (int i = 0; i < numLines; i++) {
-        
-    // }
 
     printf("result = %d\n", res);
 
