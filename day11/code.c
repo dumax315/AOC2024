@@ -13,7 +13,7 @@ typedef struct listnode
     struct listnode *next;
 } listnodeT;
 
-const mapSize = 10000;
+const int mapSize = 10000;
 
 void setMap(long long stoneNum, int times, long long result, listnodeT *map)
 {
@@ -72,16 +72,16 @@ long long computeStones(long long stoneNum, int times, listnodeT *map)
     {
         return 1;
     }
-    long long stored = getMap(stoneNum, times, map);
-    if (stored > -1)
-    {
-        // printf("get suc");
-        return stored;
-    }
+    // long long stored = getMap(stoneNum, times, map);
+    // if (stored > -1)
+    // {
+    //     // printf("get suc");
+    //     return stored;
+    // }
     if (stoneNum == 0)
     {
         long long res = computeStones(1, times - 1, map);
-        setMap(stoneNum, times, res, map);
+        // setMap(stoneNum, times, res, map);
         return res;
     }
     char str[22];
@@ -102,11 +102,11 @@ long long computeStones(long long stoneNum, int times, listnodeT *map)
         // printf("str = %s str1 = %s str2 = %s\n", str, str1, str2);
         // printf("nums: str = %s str1 = %lld str2 = %lld\n", str, atoll(str1), atoll(str2));
         long long res = computeStones(atoll(str1), times - 1, map) + computeStones(atoll(str2), times - 1, map);
-        setMap(stoneNum, times, res, map);
+        // setMap(stoneNum, times, res, map);
         return res;
     }
     long long res = computeStones(stoneNum * 2024, times - 1, map);
-    setMap(stoneNum, times, res, map);
+    // setMap(stoneNum, times, res, map);
     return res;
 }
 
