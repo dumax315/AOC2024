@@ -49,37 +49,24 @@ console.log("p1 tokens used = " + tokensUsed);
 let tokensUsedP2 = 0;
 
 for (const claw of claws) {
-    console.log(claw)
-    let Bs = 0;
-    let As = 0;
-    let minTokens = 40000000000000;
+    // a*claw.A[0] + b*claw.B[0] == claw.Goal[0];
+    // a*claw.A[0] == claw.Goal[0] - b*claw.B[0];
+    // a = (claw.Goal[0] - b*claw.B[0]) / claw.A[0];
 
+    // a*claw.A[1] + b*claw.B[1] == claw.Goal[1];
+    // ((claw.Goal[0] - b*claw.B[0]) / claw.A[0]) * claw.A[1] + b*claw.B[1] == claw.Goal[1];
+    // - b * claw.B[0] * (claw.A[1] / claw.A[0]) + b*claw.B[1] == claw.Goal[1];
+    // - b * claw.B[0] * (claw.A[1] / claw.A[0]) + b*claw.B[1] == claw.Goal[1] - claw.Goal[0] * (claw.A[1] / claw.A[0]);
+    // b * (-claw.B[0] * (claw.A[1] / claw.A[0]) + claw.B[1]) ==  claw.Goal[1] - claw.Goal[0] * (claw.A[1] / claw.A[0]);
     claw.Goal[0] += 10000000000000;
     claw.Goal[1] += 10000000000000;
-    
-    while (true) {
-        // console.log(Bs);
-        let resX = claw.B[0] * Bs;
-        let resY = claw.B[1] * Bs;
-        if(resX > claw.Goal[0] || resY > claw.Goal[1]) {
-            break;
-        }
+    let Bs = (claw.Goal[1] - claw.Goal[0] * (claw.A[1] / claw.A[0])) / (-claw.B[0] * (claw.A[1] / claw.A[0]) + claw.B[1])
 
-        if (((claw.Goal[0] - resX) % claw.A[0] === 0) && ((claw.Goal[1] - resY) % claw.A[1] === 0)) {
-            As = (claw.Goal[0] - resX) / claw.A[0];
-            resY = claw.A[1] * As + claw.B[1] * Bs;
-            if (resY === claw.Goal[1]) {
-                minTokens = Math.min(minTokens, As * 3 + Bs * 1);
-                console.log(`found one `)
-            }
-        }
-        Bs++;
-        As = 0;
-    }
+    let As = (claw.Goal[0] - Bs*claw.B[0]) / claw.A[0];
 
-    if (minTokens !== 40000000000000) {
-        console.log(minTokens);
-        tokensUsedP2 += minTokens
+    if (As > 0 && Math.abs(Math.round(As) - As) < .001 && Math.abs(Math.round(Bs) - Bs) < .001) {
+        console.log(`As = ${As} Bs = ${Bs}`)
+        tokensUsedP2 += Math.round(As) * 3 + Math.round(Bs) * 1
     }
 }
 
